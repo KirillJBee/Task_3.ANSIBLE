@@ -1,6 +1,5 @@
 # roles/backend/tasks/main.yml
-
-- name: Обновление .env файла бэкенда
+- name: Обновление .env бэкенда
   lineinfile:
     path: "{{ dir_app }}/back-end/.env"
     regexp: "^{{ item.key }}="
