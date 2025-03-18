@@ -1,5 +1,5 @@
-#Install PostgreSQL on PostgreSQL-host
-- name: Добавление репозитоия PG  в sources.list.d
+# roles/postgresql/tasks/main.yml
+- name: Добавление репозитория PG  в sources.list.d
   lineinfile:
     path: /etc/apt/sources.list.d/pgdg.list
     line: "deb http://apt.postgresql.org/pub/repos/apt {{ ansible_distribution_release }}-pgdg main"
@@ -10,7 +10,7 @@
     url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
     state: present
 
-- name: Update apt cache
+- name: Обновление кэша пакетов
   apt:
     update_cache: yes
 
@@ -19,12 +19,11 @@
     name: postgresql-{{ pg_version }}
     state: present
 
-- name: Ensure PostgreSQL is running
+- name: Контроль работы службы
   ansible.builtin.service:
     name: postgresql
     state: started
     enabled: yes
-
 
 - name: Настройка базы данных 
   block:
