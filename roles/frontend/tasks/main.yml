@@ -20,7 +20,7 @@
     chdir={{ dir_app }}/front-end
   become: false
 
-- name: Копирование собранного фронтенда
+- name: Копирование собранного фронтенда в /var/www/{{ domain }}
   copy:
     src: "{{ dir_app }}/front-end/build/"
     dest: /var/www/{{ domain }}
