@@ -1,0 +1,6 @@
+nginx_version: "1.18.0-6ubuntu14.6"
+days: 365
+output_dir: "/etc/nginx/ssl"
+key_file: "{{ output_dir }}/{{ domain }}.key"
+csr_file: "{{ output_dir }}/{{ domain }}.csr"
+crt_file: "{{ output_dir }}/{{ domain }}.crt"

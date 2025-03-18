@@ -1,0 +1,16 @@
+# group_vars/all.yml
+domain: "linuxwebserver.com"
+ansible_user: "user"
+ansible_user_dir: "/home/{{ ansible_user }}"
+dir_app: "LinuxWebServer"
+repository: "https://github.com/KirillJBee/Task_3.LinuxWebServer.git"
+#remote_tmp: /tmp/.ansible/tmp
+
+
+
+db_user: "java_user"
+db_password: "12345"
+db_name: "java_db"
+db_backup: "sample_db.sql"
+db_host: "localhost"
+db_port: "5432"

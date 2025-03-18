@@ -1,0 +1,4 @@
+# roles/nginx/update_repository/main.yml
+- name: Обновление кэша пакетов
+  apt:
+    update_cache: yes

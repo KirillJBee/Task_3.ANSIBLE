@@ -1,0 +1,33 @@
+# roles/nodejs/tasks/main.yml
+- name: Install nvm
+  get_url:
+    url: https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh
+    dest: /tmp/install_nvm.sh
+    mode: '0755'
+
+- name: Запуск установки NVM
+  command: >
+    /tmp/install_nvm.sh
+  become: false
+
+- name: Установка Node.js через NVM
+  shell: >
+    export NVM_DIR="$HOME/.nvm" && 
+    [ -s "$NVM_DIR/nvm.sh" ] &&
+    \. "$NVM_DIR/nvm.sh" &&
+    nvm install {{ node_version }}
+  args:
+    executable: /bin/bash
+  become: false
+
+- name: Создать символическую ссылку на Node.js
+  file:
+    src: /home/user/.nvm/versions/node/v22.9.0/bin/node
+    dest: /usr/bin/node
+    state: link
+
+- name: Создать символическую ссылку на Node.js
+  file:
+    src: /home/user/.nvm/versions/node/v22.9.0/bin/npm
+    dest: /usr/bin/npm
+    state: link

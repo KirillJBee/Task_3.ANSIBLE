@@ -1,0 +1,30 @@
+# roles/frontend/tasks/main.yml
+- name: Установка зависимостей фронтенда
+  npm:
+    path: "{{ dir_app }}/front-end"
+  become: false
+
+- name: Обновление .env файла фронтенда
+  lineinfile:
+    path: "{{ dir_app }}/front-end/.env"
+    regexp: "^{{ item.key }}="
+    line: "{{ item.key }}={{ item.value }}"
+  with_items:
+    - { key: "REACT_APP_API_PORT", value: "{{ port_api }}" }
+    - { key: "REACT_APP_API_URL", value: "{{ protocol }}://{{ domain }}" }
+  become: false
+
+- name: Сборка фронтенда
+  command: >
+    npm run build
+    chdir={{ dir_app }}/front-end
+  become: false
+
+- name: Копирование собранного фронтенда
+  copy:
+    src: "{{ dir_app }}/front-end/build/"
+    dest: /var/www/{{ domain }}
+    remote_src: yes
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0755'

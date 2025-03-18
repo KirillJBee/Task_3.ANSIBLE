@@ -1,0 +1,6 @@
+# roles/java/tasks/main.yml
+- name: Установка Java OpenJDK
+  apt:
+    name: "openjdk-{{ java_version_jdk }}-jdk"
+    state: present
+    update_cache: yes

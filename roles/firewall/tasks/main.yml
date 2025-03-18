@@ -1,0 +1,14 @@
+# roles/firewall/tasks/main.yml
+- name: Разрешение портов в фаерволе
+  ufw:
+    rule: allow
+    port: "{{ item }}"
+    proto: tcp
+  with_items:
+    - "22"
+    - "80"
+    - "443"
+
+- name: Включение фаервола
+  ufw:
+    state: enabled

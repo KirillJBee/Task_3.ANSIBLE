@@ -1,0 +1,50 @@
+# roles/nginx/tasks/main.yml
+- name: Установка Nginx
+  apt:
+    name: "nginx-full={{ nginx_version }}"
+    state: present
+    update_cache: yes
+
+- name: Запуск службы Nginx
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: Создание директории для SSL
+  file:
+    path: "{{ output_dir }}"
+    state: directory
+    mode: '0755'
+
+- name: Генерация приватного ключа
+  command: >
+    openssl genpkey -algorithm RSA -out {{ key_file }}
+
+- name: Генерация CSR
+  command: >
+    openssl req -new -key {{ key_file }} -out {{ csr_file }} -subj "/CN={{ domain }}"
+
+- name: Генерация самоподписанного сертификата
+  command: >
+    openssl x509 -req -days {{ days }} -in {{ csr_file }} -signkey {{ key_file }} -out {{ crt_file }}
+
+- name: Удаление CSR файла
+  file:
+    path: "{{ csr_file }}"
+    state: absent
+
+- name: Копирование конфигурации Nginx
+  copy:
+    src: "{{ ansible_user_dir }}/{{ dir_app }}/configNginx443"
+    dest: "/etc/nginx/sites-available/default"
+    remote_src: yes
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Перезапуск Nginx
+  service:
+    name: nginx
+    state: reloaded
+

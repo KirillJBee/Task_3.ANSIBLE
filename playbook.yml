@@ -1,0 +1,17 @@
+# playbook.yml
+- hosts: [webservers]
+  become: true
+  vars_files:
+    - vars/all.yml
+  roles:
+    - update_repository
+    - clone_repository
+    - nginx
+    - nodejs
+    - frontend
+    - postgresql
+    - redis
+    - java
+    - gradle
+    - backend
+    - firewall

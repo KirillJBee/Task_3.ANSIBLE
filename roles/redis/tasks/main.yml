@@ -1,0 +1,12 @@
+# roles/redis/tasks/main.yml
+- name: Установка Redis
+  apt:
+    name: redis-server
+    state: present
+    update_cache: yes
+
+- name: Запуск службы Redis
+  service:
+    name: redis-server
+    state: started
+    enabled: yes

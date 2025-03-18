@@ -1,0 +1,27 @@
+# roles/gradle/tasks/main.yml
+- name: Контроль наличия файла gradle-{{ gradle_version }}-all.zip
+  file:
+        path: /home/{{ ansible_user }}/gradle-{{ gradle_version }}-all.zip
+        state: file
+        mode: "0755"
+
+- name: Создание каталога для Gradle-{{ gradle_version }}
+  file:
+    path: /opt/gradle
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0755'
+
+- name: Распаковка Gradle-{{ gradle_version }}
+  unarchive:
+    src: /home/{{ ansible_user }}/gradle-{{ gradle_version }}-all.zip
+    dest: /opt/gradle
+    remote_src: yes
+  become: false
+
+- name: Создание символической ссылки на Gradle-{{ gradle_version }}
+  file:
+    src: /opt/gradle/gradle-8.5/bin/gradle
+    dest: /usr/bin/gradle
+    state: link

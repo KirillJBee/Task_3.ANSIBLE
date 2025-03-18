@@ -1,0 +1,8 @@
+- name: Клонирование репозитория
+  git:
+    repo: "{{ repository }}"
+    dest: "{{ dir_app }}"
+    version: main
+    update: yes
+    force: yes
+  become: false

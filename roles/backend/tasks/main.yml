@@ -1,0 +1,25 @@
+# roles/backend/tasks/main.yml
+
+- name: Обновление .env файла бэкенда
+  lineinfile:
+    path: "{{ dir_app }}/back-end/.env"
+    regexp: "^{{ item.key }}="
+    line: "{{ item.key }}={{ item.value }}"
+  with_items:
+    - { key: "POSTGRES_HOST", value: "{{ db_host }}" }
+    - { key: "POSTGRES_PORT", value: "{{ db_port }}" }
+    - { key: "POSTGRES_USER", value: "{{ db_user }}" }
+    - { key: "POSTGRES_PASSWORD", value: "{{ db_password }}" }
+    - { key: "POSTGRES_DB", value: "{{ db_name }}" }
+    - { key: "SERVER_PORT", value: "{{ server_port }}" }
+
+- name: Сборка бэкенда
+  command: >
+    gradle bootJar
+    chdir={{ dir_app }}/back-end
+  become: false
+
+- name: Запуск бэкенда
+  shell: >
+    env $(cat .env | xargs) java -jar build/libs/ci-back-end-0.0.1-SNAPSHOT.jar &
+    chdir={{ dir_app }}/back-end
