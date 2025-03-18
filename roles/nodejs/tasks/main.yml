@@ -10,7 +10,7 @@
     /tmp/install_nvm.sh
   become: false
 
-- name: Установка Node.js через NVM
+- name: Установка Node через NVM
   shell: >
     export NVM_DIR="$HOME/.nvm" && 
     [ -s "$NVM_DIR/nvm.sh" ] &&
@@ -20,13 +20,13 @@
     executable: /bin/bash
   become: false
 
-- name: Создать символическую ссылку на Node.js
+- name: Создание символической ссылки для Node
   file:
     src: /home/user/.nvm/versions/node/v22.9.0/bin/node
     dest: /usr/bin/node
     state: link
 
-- name: Создать символическую ссылку на Node.js
+- name: Создание символической ссылки для NPM
   file:
     src: /home/user/.nvm/versions/node/v22.9.0/bin/npm
     dest: /usr/bin/npm
