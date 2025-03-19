@@ -38,7 +38,8 @@
   template:
     src: nginx.conf.j2
     dest: "/etc/nginx/sites-available/default"
-    remote_src: yes
+    owner: root
+    group: root
     mode: '0644'
   notify: Рестарт сервиса Nginx
 

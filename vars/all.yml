@@ -14,3 +14,5 @@ db_name: "java_db"
 db_backup: "sample_db.sql"
 db_host: "localhost"
 db_port: "5432"
+
+server_port: "8081"
