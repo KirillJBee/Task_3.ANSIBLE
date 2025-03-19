@@ -35,16 +35,16 @@
     state: absent
 
 - name: Копирование конфигурации Nginx
-  copy:
-    src: "{{ ansible_user_dir }}/{{ dir_app }}/configNginx443"
+  template:
+    src: nginx.conf.j2
     dest: "/etc/nginx/sites-available/default"
     remote_src: yes
-    owner: root
-    group: root
     mode: '0644'
+  notify: Рестарт сервиса Nginx
 
-- name: Перезапуск Nginx
+- name: Контроль работы сервиса Nginx, перезапуск
   service:
     name: nginx
-    state: reloaded
+    state: started
+    enabled: yes
 
