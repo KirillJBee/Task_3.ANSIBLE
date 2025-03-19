@@ -20,7 +20,7 @@
     state: present
 
 - name: Контроль работы службы
-  ansible.builtin.service:
+  service:
     name: postgresql
     state: started
     enabled: yes
